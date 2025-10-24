@@ -1,0 +1,292 @@
+/* ========== FONTE ========== */
+@font-face{
+  font-family:"Lato";
+  src:url("../fonts/Lato-Light.ttf") format("truetype");
+  font-weight:300; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"Lato";
+  src:url("../fonts/Lato-Regular.ttf") format("truetype");
+  font-weight:400; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"Lato";
+  src:url("../fonts/Lato-Bold.ttf") format("truetype");
+  font-weight:700; font-style:normal; font-display:swap;
+}
+html, body{ font-family:"Lato", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif; }
+
+/* ========== VARIABLER & BASE ========== */
+:root{
+    --red:#cd1332; 
+    --blue:#cfe6f6; 
+    --bg:#ffffff; 
+    --text:#1b1b1b;
+    --radius:16px; 
+    --container:1200px;
+  
+    /* skygger + fokus */
+    --shadow: 0 6px 28px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
+    --shadow-lg: 0 14px 40px rgba(0,0,0,.18), 0 6px 18px rgba(0,0,0,.12);
+    --focus-blue: #0a66c2;
+    --focus-ring: rgba(10,102,194,.35);
+  }
+  
+*{ box-sizing:border-box }
+html, body{ margin:0; padding:0; background:var(--bg); color:var(--text); line-height:1.5; }
+img{ max-width:100%; height:auto; display:block }
+.container{ max-width:var(--container); margin-inline:auto; padding:clamp(12px,2vw,24px); }
+
+/* ========== HERO (uændret fra dig) ========== */
+.hero{
+  position:relative; background:var(--red); color:#fff; border-radius:var(--radius);
+  overflow:hidden; min-height:240px; display:grid; grid-template-columns:1fr; align-items:stretch;
+}
+.hero__text{
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; gap:12px; padding:clamp(20px,4vw,48px);
+}
+.hero__text h1{ margin:0; font-weight:900; letter-spacing:.5px; font-size:clamp(28px,4.5vw,44px); }
+.hero__text p{ margin:0; font-size:clamp(14px,2.2vw,18px) }
+.hero__image{ position:relative; width:100%; min-height:220px }
+.hero__image img{ object-fit:cover; width:100%; height:100% }
+.below-badge-wrap{ margin-top:10px; display:flex; align-items:flex-start; gap:10px; justify-content:flex-end; }
+.below-badge{ width:auto; max-width:350px; }
+@media (min-width:720px){
+  .hero{ grid-template-columns:1fr 1fr }
+  .hero__text{ order:1 } .hero__image{ order:2 }
+}
+
+/* ========== KORT/ACCORDION ========== */
+/* Grid: 2 kolonner – åbne kort skifter IKKE kolonne eller bredde */
+.cards{
+  display:grid;
+  gap:clamp(12px,2.2vw,20px);
+  align-items:start;                 /* ingen stræk */
+  margin-top:clamp(14px,3vw,28px);
+}
+@media (min-width:720px){
+  .cards{ grid-template-columns:1fr 1fr; }
+}
+
+/* Selve kortet (samlet, uden dubletter) */
+details.card{
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  border:0;
+  background:#fff;                   /* åben-tilstand */
+}
+
+/* Lukket tilstand: samme farve over hele kortet */
+.card-red:not([open]){ background:var(--red); color:#fff; }
+.card-blue:not([open]){ background:var(--blue); color:#0e2430; }
+
+.card-red:not([open]) > summary,
+.card-blue:not([open]) > summary{
+  background:transparent; color:inherit; border-bottom:0;
+}
+
+/* Åben tilstand: farvet summary + hvidt indhold */
+.card-red[open] > summary{ background:var(--red); color:#fff; }
+.card-blue[open] > summary{ background:var(--blue); }
+details.card[open] > summary{ border-bottom:1px solid rgba(0,0,0,.08); }
+
+/* Summary layout – ENS for alle: h3 = 1/3, teaser = 2/3, CTA under h3 */
+details.card > summary{
+  cursor:pointer; list-style:none; outline:none;
+  padding:18px 20px;
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  grid-template-rows:auto auto;     /* række 2 til CTA */
+  gap:12px 16px;
+  align-items:start;
+  font-size:clamp(16px,2.2vw,20px);
+}
+details.card > summary::-webkit-details-marker{ display:none }
+
+details.card > summary h3{
+  grid-column:1; grid-row:1;
+  margin:0 0 4px 0;
+  font-size:clamp(18px,2.2vw,22px);
+}
+details.card > summary .teaser{
+  grid-column:2; grid-row:1;
+  margin:0; opacity:.9;
+}
+details.card > summary .summary-cta{
+  grid-column:1; grid-row:2;
+  justify-self:start;
+  font-weight:700; font-size:14px;
+  position:relative; padding-right:18px;
+}
+details.card > summary .summary-cta::after{
+  content:"›"; position:absolute; right:0; top:0;
+  transform:rotate(90deg); transition:.2s;
+}
+details.card[open] .summary-cta::after{ transform:rotate(-90deg); }
+
+/* Indholdet */
+.card__content{ padding:16px 20px 22px; background:#fff; }
+
+/* Mobil: stack alt i summary */
+@media (max-width:640px){
+  details.card > summary{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto auto;
+  }
+  details.card > summary .teaser{ grid-column:1; grid-row:2 }
+  details.card > summary .summary-cta{ grid-column:1; grid-row:3 }
+}
+
+/* ========== HELPERS ========== */
+.sr-only{
+  position:absolute !important; clip:rect(1px,1px,1px,1px);
+  padding:0; border:0; height:1px; width:1px; overflow:hidden; white-space:nowrap;
+}
+.fineprint{ font-size:14px; opacity:.7; padding-bottom:32px; margin:0 }
+
+.card__content .card-img{
+    display:block;
+    margin:12px auto;                 /* centrer */
+    width: clamp(220px, 45%, 360px);  /* styr størrelse */
+    height:auto;
+    border-radius:12px;               /* valgfrit */
+  }
+  
+  .site-footer {
+    background-color: #fff;  /* rød baggrund */
+    color: #000;                /* hvid tekst */
+    text-align: center;         /* centrer teksten */
+    padding: 16px 0;            /* lidt luft top/bund */
+    font-size: 0.95rem;         /* valgfrit: lidt mindre skrift */
+    font-weight: 500;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+  }
+  
+  .pill {
+    display: inline-block;
+    background: linear-gradient(90deg, #740719, #94a4bb, #b9112d);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.2rem;
+  }
+
+  /* Kort – grundtilstand */
+  details.card{
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 0;
+    background: #fff;
+    transition: box-shadow 180ms ease, transform 180ms ease, background-color 180ms ease;
+    will-change: box-shadow, transform;
+  }
+  
+  /* Lidt løft ved hover (desktop) */
+  @media (hover:hover){
+    details.card:hover{
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-1px);
+    }
+  }
+  
+  /* Gør hele summary klikbart (denne SKAL ligge før fokus-reglerne) */
+  details.card > summary{
+    cursor: pointer;
+    outline: none;
+  }
+  
+  /* Fallback: alle browsere */
+  details.card > summary:focus{
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+  
+  /* Kun hvor :focus-visible findes */
+  @supports selector(:focus-visible){
+    details.card > summary:focus:not(:focus-visible){
+      outline: none;
+    }
+    details.card > summary:focus-visible{
+      outline: 3px solid var(--focus-blue);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 3px rgba(0,0,0,.06);
+    }
+  }
+  
+  /* Åbent kort: en anelse mere fremhævet */
+  details.card[open]{
+    box-shadow: var(--shadow-lg);
+    background: #fff;
+  }
+  
+  /* (Valgfrit) mørk tilstand – dæmpet skygge */
+  @media (prefers-color-scheme: dark){
+    details.card{
+      background: #121212;
+      box-shadow: 0 2px 8px rgba(0,0,0,.5);
+    }
+    details.card[open],
+    details.card:hover{
+      box-shadow: 0 8px 24px rgba(0,0,0,.6);
+    }
+  }
+  
+  /* (Valgfrit) fokusring omkring hele kortet når summary har fokus */
+  details.card:focus-within{
+    box-shadow: 0 0 0 3px var(--focus-ring), var(--shadow-lg);
+  }
+  
+
+/* Banner (hele hero-blokken) */
+.hero{
+  border-radius: 20px;                    /* match evt. dit eksisterende radius */
+  box-shadow: 0 8px 24px rgba(0,0,0,.12),
+              0 2px  6px rgba(0,0,0,.08); /* diskret, men synlig skygge */
+  overflow: hidden;                        /* klip billede i de runde hjørner */
+  background: #cd1332;                        /* neutral baggrund for pæn skygge */
+}
+
+/* Lidt luft omkring banneret, så skyggen kan ses */
+header.container{
+  padding-top: 8px;
+  padding-bottom: 12px;
+}
+
+/* Sikrer at billedet udfylder højre side uden at forvrænges */
+.hero__image img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
+
+/* (valgfrit) mørk tilstand: lidt tungere skygge */
+@media (prefers-color-scheme: dark){
+  .hero{
+    background:#141414;
+    box-shadow: 0 10px 30px rgba(0,0,0,.45),
+                0  2px  8px rgba(0,0,0,.35);
+  }
+}
+
+  
