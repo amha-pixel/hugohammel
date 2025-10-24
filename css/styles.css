@@ -105,6 +105,15 @@ details.card > summary{
 }
 details.card > summary::-webkit-details-marker{ display:none }
 
+/* Kun tastaturfokus viser ring (fjerner blink ved klik) */
+details.card > summary:focus-visible{
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(0,0,0,.06);
+}
+
+
+
 details.card > summary h3{
   grid-column:1; grid-row:1;
   margin:0 0 4px 0;
@@ -214,23 +223,7 @@ details.card[open] .summary-cta::after{ transform:rotate(-90deg); }
     outline: none;
   }
   
-  /* Fallback: alle browsere */
-  details.card > summary:focus{
-    outline: 3px solid var(--focus-ring);
-    outline-offset: 3px;
-  }
   
-  /* Kun hvor :focus-visible findes */
-  @supports selector(:focus-visible){
-    details.card > summary:focus:not(:focus-visible){
-      outline: none;
-    }
-    details.card > summary:focus-visible{
-      outline: 3px solid var(--focus-blue);
-      outline-offset: 3px;
-      box-shadow: 0 0 0 3px rgba(0,0,0,.06);
-    }
-  }
   
   /* Åbent kort: en anelse mere fremhævet */
   details.card[open]{
@@ -250,10 +243,7 @@ details.card[open] .summary-cta::after{ transform:rotate(-90deg); }
     }
   }
   
-  /* (Valgfrit) fokusring omkring hele kortet når summary har fokus */
-  details.card:focus-within{
-    box-shadow: 0 0 0 3px var(--focus-ring), var(--shadow-lg);
-  }
+
   
 
   /* === HERO – EN KONSOLIDERET VERSION === */
@@ -301,5 +291,28 @@ details.card[open] .summary-cta::after{ transform:rotate(-90deg); }
     .hero__image img{ height: 100%; }
   }
   
-
+  /* Ingen ring ved mus/tryk */
+  details.card > summary:focus{
+    outline: none;
+    box-shadow: none;
+  }
+  
+  /* Kun ved tastatur (Tab) vises en rolig ring */
+  details.card > summary:focus-visible{
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+  
+  /* Sluk “glow” på hele kortet */
+  details.card:focus-within{
+    box-shadow: var(--shadow);
+  }
+  
+  /* Undgå skygge-animationer, som kan se ud som blink */
+  details.card{
+    transition: transform 180ms ease, background-color 180ms ease; /* ingen shadow-anim */
+  }
+  details.card[open]{ box-shadow: var(--shadow); } /* ens skygge åben/lukket */
+  
   
