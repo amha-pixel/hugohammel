@@ -28,8 +28,8 @@ html, body{ font-family:"Lato", system-ui, -apple-system, Segoe UI, Roboto, Ubun
     /* skygger + fokus */
     --shadow: 0 6px 28px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
     --shadow-lg: 0 14px 40px rgba(0,0,0,.18), 0 6px 18px rgba(0,0,0,.12);
-    --focus-blue: #0a66c2;
-    --focus-ring: rgba(10,102,194,.35);
+    --focus-blue: #ffffff;
+    --focus-ring: rgba(255, 255, 255, 0.1);
   }
   
 *{ box-sizing:border-box }
