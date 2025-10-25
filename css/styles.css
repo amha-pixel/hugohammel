@@ -267,16 +267,6 @@ details.card[open] .summary-cta::after{ transform:rotate(-90deg); }
   .hero__text h1{ margin:0; font-weight:900; letter-spacing:.5px; font-size:clamp(28px,4.5vw,44px); }
   .hero__text p{ margin:0; font-size:clamp(14px,2.2vw,18px); }
   
-  /* Mobil: stabil billedhøjde */
-  .hero__image{
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;        /* 3/2 eller 4/3 hvis du vil have højere/lavere */
-    min-height: 220px;
-  }
-  .hero__image img{
-    display:block; width:100%; height:100%; object-fit:cover;
-  }
   
   /* Tablet/desktop: 2 kolonner, billedet strækker i højden (ingen rød bar) */
   @media (min-width: 720px){
