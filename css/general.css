@@ -1,0 +1,145 @@
+/* ========== FONTE ========== */
+@font-face{
+  font-family:"Lato";
+  src:url("../fonts/Lato-Light.ttf") format("truetype");
+  font-weight:300; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"Lato";
+  src:url("../fonts/Lato-Regular.ttf") format("truetype");
+  font-weight:400; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"Lato";
+  src:url("../fonts/Lato-Bold.ttf") format("truetype");
+  font-weight:700; font-style:normal; font-display:swap;
+}
+html, body{ font-family:"Lato", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif; }
+
+/* ========== VARIABLER & BASE ========== */
+:root{
+  --red:#cd1332; 
+  --blue:#cfe6f6; 
+  --bg:#ffffff; 
+  --text:#1b1b1b;
+  --radius:16px; 
+  --container:1200px;
+
+  /* skygger + fokus */
+  --shadow: 0 6px 28px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
+  --shadow-lg: 0 14px 40px rgba(0,0,0,.18), 0 6px 18px rgba(0,0,0,.12);
+  --focus-blue: #ffffff;
+  --focus-ring: rgba(255, 255, 255, 0.1);
+}
+*{ box-sizing:border-box }
+html, body{ margin:0; padding:0; background:var(--bg); color:var(--text); line-height:1.5; }
+img{ max-width:100%; height:auto; display:block }
+
+/* ========== KORT/ACCORDION – SKIN ========== */
+details.card{
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  border:0;
+  background:#fff;                   /* åben-tilstand */
+}
+.card-red:not([open]){ background:var(--red); color:#fff; }
+.card-blue:not([open]){ background:var(--blue); color:#0e2430; }
+.card-red:not([open]) > summary,
+.card-blue:not([open]) > summary{
+  background:transparent; color:inherit; border-bottom:0;
+}
+.card-red[open] > summary{ background:var(--red); color:#fff; }
+.card-blue[open] > summary{ background:var(--blue); }
+details.card[open] > summary{ border-bottom:1px solid rgba(0,0,0,.08); }
+
+/* Indholdet */
+.card__content{ padding:16px 20px 22px; background:#fff; }
+
+/* ========== HELPERS & TEKST ========== */
+.sr-only{
+  position:absolute !important; clip:rect(1px,1px,1px,1px);
+  padding:0; border:0; height:1px; width:1px; overflow:hidden; white-space:nowrap;
+}
+.fineprint{ font-size:14px; opacity:.7; padding-bottom:32px; margin:0 }
+
+.card__content .card-img{
+  display:block;
+  margin:12px auto;                 /* centrer */
+  width: clamp(220px, 45%, 360px);  /* styr størrelse */
+  height:auto;
+  border-radius:12px;               /* valgfrit */
+}
+
+.site-footer {
+  background-color: #fff;  /* rød baggrund */
+  color: #000;                /* hvid tekst */
+  text-align: center;         /* centrer teksten */
+  padding: 16px 0;            /* lidt luft top/bund */
+  font-size: 0.95rem;         /* valgfrit: lidt mindre skrift */
+  font-weight: 500;
+}
+
+.pill {
+  display: inline-block;
+  background: linear-gradient(90deg, #740719, #94a4bb, #b9112d);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.2rem;
+}
+
+/* Kort – hover/åben (skin/transition) */
+details.card{
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 0;
+  background: #fff;
+  transition: box-shadow 180ms ease, transform 180ms ease, background-color 180ms ease;
+  will-change: box-shadow, transform;
+}
+@media (hover:hover){
+  details.card:hover{
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+}
+details.card[open]{
+  box-shadow: var(--shadow-lg);
+  background: #fff;
+}
+@media (prefers-color-scheme: dark){
+  details.card{
+    background: #121212;
+    box-shadow: 0 2px 8px rgba(0,0,0,.5);
+  }
+  details.card[open],
+  details.card:hover{
+    box-shadow: 0 8px 24px rgba(0,0,0,.6);
+  }
+}
+
+/* Fokus-styles (tilgængelighed) */
+details.card > summary:focus{
+  outline: none;
+  box-shadow: none;
+}
+details.card > summary:focus-visible{
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow: none;
+}
+details.card:focus-within{
+  box-shadow: var(--shadow);
+}
+/* Undgå skygge-animationer som kan blinke */
+details.card{
+  transition: transform 180ms ease, background-color 180ms ease; /* ingen shadow-anim */
+}
+details.card[open]{ box-shadow: var(--shadow); } /* ens skygge åben/lukket */
